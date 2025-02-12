@@ -209,6 +209,7 @@ function spinnerColorflash() {
         iteration++;
         if (iteration >= 12) {
             clearInterval(colorSpin0);
+            spinner.style.backgroundColor = "black";
         }
     }, 44);
     const colorSpin1 = setInterval(() => {
@@ -223,6 +224,7 @@ function spinnerColorflash() {
         spinner.style.backgroundColor = "yellow";
         if (iteration >= 12) {
             clearInterval(colorSpin2);
+            spinner.style.backgroundColor = "black";
 
         }
     }, 35);
@@ -230,6 +232,7 @@ function spinnerColorflash() {
         spinner.style.backgroundColor = "green";
         if (iteration >= 12) {
             clearInterval(colorSpin3);
+            spinner.style.backgroundColor = "black";
 
 
         }
@@ -242,6 +245,7 @@ function collectorColorflash() {
         iteration++;
         if (iteration >= 12) {
             clearInterval(colorSpin0);
+            spinner.style.backgroundColor = "black";
         }
     }, 44);
     const colorSpin1 = setInterval(() => {
@@ -256,6 +260,7 @@ function collectorColorflash() {
         collector.style.backgroundColor = "yellow";
         if (iteration >= 12) {
             clearInterval(colorSpin2);
+            spinner.style.backgroundColor = "black";
 
         }
     }, 35);
@@ -263,6 +268,7 @@ function collectorColorflash() {
         collector.style.backgroundColor = "green";
         if (iteration >= 12) {
             clearInterval(colorSpin3);
+            spinner.style.backgroundColor = "black";
 
 
         }
