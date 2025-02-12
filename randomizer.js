@@ -13,20 +13,27 @@ let collected = true;
 let spinCounter = 0;
 let mSteps = 0;
 let dSteps = 0;
+let colorData1 = [];
+let colorData0 = [];
 
 for (let slot of slots) {
     slot.innerHTML = "-";
 }
+spinnertextColors(true);
+spinnertextColors2(false);
 
 collector.addEventListener("click", e => {
     if (!collected && !spinning) {
+        collectorColorflash();
+        spinnertextColors2(false);
+        spinnertextColors(true);
         collected = true;
         instanceScore = 0;
         mSteps = 0;
         dSteps = 0;
         for (let slot of slots) {
             for (otherSlot of slots) {
-                if ((slot.name == otherSlot.name) && !(slot.id == otherSlot.id) && !((slot.name == "blank")||(otherSlot.name == "blank"))){
+                if ((slot.name == otherSlot.name) && !(slot.id == otherSlot.id) && !((slot.name == "blank") || (otherSlot.name == "blank"))) {
                     multiplesDisplay.innerHTML = "MULTIPLES BONUS!";
                     instanceScore += 200;
                 }
@@ -42,13 +49,13 @@ collector.addEventListener("click", e => {
             if (slot.name == "spade") mSteps += 3;
             if (slot.name == "alien") dSteps += 1;
             if (slot.name == "xiaohongshu") mSteps += 7;
-            if(slot.name == "sparkle") mSteps += 1;
+            if (slot.name == "sparkle") mSteps += 1;
         }
         console.log(instanceScore);
-        for(let i = 0; i< mSteps;i++){
+        for (let i = 0; i < mSteps; i++) {
             instanceScore = instanceScore * 2;
         }
-        for(let i = 0; i< dSteps;i++){
+        for (let i = 0; i < dSteps; i++) {
             instanceScore = Math.round(instanceScore / 3);
         }
         if (instanceScore < 0) {
@@ -71,19 +78,21 @@ collector.addEventListener("click", e => {
 
 spinner.addEventListener("click", e => {
     if (!spinning && collected && doubloons > 0) {
+        spinnertextColors(false);
+        spinnertextColors2(true);
         multiplesDisplay.innerHTML = "";
         spinScore.innerHTML = "";
         spinning = true;
-        spinnerColors();
+        spinnerColorflash();
         spinSlots();
         collected = false;
-    } else if (doubloons < 1&&!spinning) {
+    } else if (doubloons < 1 && !spinning) {
         spinScore.style.fontSize = "x-large";
         spinScore.style.color = "red";
         spinScore.innerHTML = "YOU LOST ALL OF YOUR DOUBLOONS, YE SCOUNDREL, PISS OF THEE NOW!";
-    } else if(!collected&&!spinning){
+    } else if (!collected && !spinning) {
         spinScore.innerHTML = "CONFIRM YA POINTS BEFORE YA SPIN AGAIN";
-    }else {
+    } else {
         spinScore.innerHTML = "WAIT FOR SPINNING TO FINISH";
     }
 
@@ -139,17 +148,17 @@ function spinSlot(slot) {
         } else if (spin % 30 == 0) {
             slot.innerHTML = `<img src="imgs/alien.png" width="80" height="80" title="divide all by 3 (stacks) (applies last)">`;
             slot.name = "alien";
-        }else if(spin % 108 == 0){
+        } else if (spin % 108 == 0) {
             slot.innerHTML = `<img src="imgs/u6307.png" width="80" height="80" title="x128">`;
             slot.name = "xiaohongshu";
-        }else if(spin % 29 == 0){
+        } else if (spin % 29 == 0) {
             slot.innerHTML = `<img src="imgs/sparkle.png" width="80" height="80" title="x2 (stacks)">`;
             slot.name = "sparkle";
         }
-        else if (spin % 2 == 0){
+        else if (spin % 2 == 0) {
             slot.innerHTML = `<img src="imgs/black_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
             slot.name = "blank";
-        }else{
+        } else {
             slot.innerHTML = `<img src="imgs/red_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
             slot.name = "blank";
         }
@@ -161,7 +170,7 @@ function spinSlot(slot) {
     }, 55);
 }
 
-function spinnerColors() {
+function spinnerColorflash() {
     let iteration = 0;
     const colorSpin0 = setInterval(() => {
         spinner.style.backgroundColor = "red";
@@ -175,25 +184,104 @@ function spinnerColors() {
         if (iteration >= 12) {
             clearInterval(colorSpin1);
             spinner.style.backgroundColor = "black";
-            
+
         }
     }, 47);
     const colorSpin2 = setInterval(() => {
         spinner.style.backgroundColor = "yellow";
         if (iteration >= 12) {
             clearInterval(colorSpin2);
-            
+
         }
     }, 35);
     const colorSpin3 = setInterval(() => {
         spinner.style.backgroundColor = "green";
         if (iteration >= 12) {
             clearInterval(colorSpin3);
-            
+
 
         }
     }, 43);
+}
+function collectorColorflash() {
+    let iteration = 0;
+    const colorSpin0 = setInterval(() => {
+        collector.style.backgroundColor = "red";
+        iteration++;
+        if (iteration >= 12) {
+            clearInterval(colorSpin0);
+        }
+    }, 44);
+    const colorSpin1 = setInterval(() => {
+        collector.style.backgroundColor = "blue";
+        if (iteration >= 12) {
+            clearInterval(colorSpin1);
+            collector.style.backgroundColor = "black";
 
+        }
+    }, 47);
+    const colorSpin2 = setInterval(() => {
+        collector.style.backgroundColor = "yellow";
+        if (iteration >= 12) {
+            clearInterval(colorSpin2);
+
+        }
+    }, 35);
+    const colorSpin3 = setInterval(() => {
+        collector.style.backgroundColor = "green";
+        if (iteration >= 12) {
+            clearInterval(colorSpin3);
+
+
+        }
+    }, 43);
+}
+
+
+function spinnertextColors(operation) {
+    if (!operation) {
+        colorData0.forEach(clearInterval);
+        colorData0 = [];
+        return;
+    }else{
+    let iteration = 0;
+    const colorSpin0 = setInterval(() => {
+        spinner.style.color = "red";
+    }, 444);
+    const colorSpin1 = setInterval(() => {
+        spinner.style.color = "blue";
+    }, 347);
+    const colorSpin2 = setInterval(() => {
+        spinner.style.color = "yellow";
+    }, 235);
+    const colorSpin3 = setInterval(() => {
+        spinner.style.color = "green";
+    }, 250);
+    colorData0 = [colorSpin0,colorSpin1,colorSpin2,colorSpin3];
+}
+}
+
+function spinnertextColors2(operation) {
+    if (!operation) {
+        colorData1.forEach(clearInterval);
+        colorData1 = [];
+        return;
+    }else{
+    let iteration = 0;
+    const colorSpin0 = setInterval(() => {
+        collector.style.color = "red";
+    }, 444);
+    const colorSpin1 = setInterval(() => {
+        collector.style.color = "blue";
+    }, 347);
+    const colorSpin2 = setInterval(() => {
+        collector.style.color = "yellow";
+    }, 235);
+    const colorSpin3 = setInterval(() => {
+        collector.style.color = "green";
+    }, 250);
+    colorData1 = [colorSpin0,colorSpin1,colorSpin2,colorSpin3];
+}
 }
 
 
