@@ -4,12 +4,18 @@ const collector = document.getElementById("collect");
 const doubloonCounter = document.getElementById("doubloonsCounter");
 const spinsCounter = document.getElementById("spinsCounter");
 const multiplesDisplay = document.getElementById("multiplesDisplay");
+const skipsCounter = document.getElementById("skipsCounter");
+const skip = document.getElementById("skip");
+const purchase = document.getElementById("purchase");
 let spinScore = document.getElementById("spinScore");
 let doubloons = 1000;
+let skips = 0;
+let skipPrice = 1000;
 let timesSpinned = 0;
 let instanceScore = 0;
 let spinning = false;
 let collected = true;
+let skipped = false;
 let spinCounter = 0;
 let mSteps = 0;
 let dSteps = 0;
@@ -61,7 +67,7 @@ collector.addEventListener("click", e => {
             if (slot.name == "oil") instanceScore += 500;
             if (slot.name == "pray") instanceScore += 100;
             if (slot.name == "trash") instanceScore -= 10000;
-            if (slot.name == "sos")nSteps = 1;
+            if (slot.name == "sos") nSteps = 1;
             if (slot.name == "flip") flips += 1;
         }
 
@@ -90,6 +96,10 @@ collector.addEventListener("click", e => {
         spinCounter += 1;
         doubloonCounter.innerHTML = `${doubloons}`;
         spinsCounter.innerHTML = `${spinCounter}`;
+        if (doubloons > 5000) {
+            skipPrice = Math.round(doubloons * 0.2);
+            purchase.innerHTML = `BUY SKIP FOR ${skipPrice} DOUBLOONS`;
+        }
 
     } else {
         spinScore.innerHTML = "WAIT FOR SPINNING TO FINISH";
@@ -103,6 +113,7 @@ spinner.addEventListener("click", e => {
         multiplesDisplay.innerHTML = "";
         spinScore.innerHTML = "";
         spinning = true;
+        skipped = false;
         spinnerColorflash();
         spinSlots();
         collected = false;
@@ -117,6 +128,46 @@ spinner.addEventListener("click", e => {
     }
 
 })
+
+purchase.addEventListener("click", e => {
+    if (doubloons > skipPrice) {
+        purchaseColorflash();
+        doubloons -= skipPrice;
+        skips += 1;
+        doubloonCounter.innerHTML = `${doubloons}`;
+        skipsCounter.innerHTML = `${skips}`;
+    } else {
+        multiplesDisplay.innerHTML = "NOT ENOUGH DOUBLOONS YE FOOL!"
+    }
+})
+
+skip.addEventListener("click", e => {
+    if (spinning) {
+        spinScore.innerHTML = "WAIT FOR SPINNING TO FINISH";
+    } else if (skips > 0 && !skipped && !collected) {
+        skipColorflash();
+        spinnertextColors2(false);
+        spinnertextColors(true);
+        skips -= 1;
+        collected = true;
+        skipped = true;
+        if (skips == 0) {
+            skipsCounter.innerHTML = "";
+        } else {
+            skipsCounter.innerHTML = `${skips}`;
+        }
+    } else if(skipped || collected){
+        spinScore.innerHTML = "NOT NECESSARY!";
+    }else {
+        spinScore.innerHTML = "NO SKIPS IN YA BANK, YE HAVE TO TAKE IT!";
+    }
+})
+
+
+
+
+
+
 
 
 
@@ -174,22 +225,22 @@ function spinSlot(slot) {
         } else if (spin % 29 == 0) {
             slot.innerHTML = `<img src="imgs/sparkle.png" width="80" height="80" title="x2 (stacks)">`;
             slot.name = "sparkle";
-        }else if( spin % 80 == 0){
+        } else if (spin % 80 == 0) {
             slot.innerHTML = `<img src="imgs/pray.png" width="80" height="80" title="+100">`;
             slot.name = "pray";
-        }else if( spin % 18 == 0){
+        } else if (spin % 18 == 0) {
             slot.innerHTML = `<img src="imgs/sos.png" width="80" height="80" title="makes result negative">`;
             slot.name = "sos";
-        }else if( spin % 91 == 0){
+        } else if (spin % 91 == 0) {
             slot.innerHTML = `<img src="imgs/oil_drum.png" width="80" height="80" title="+500">`;
             slot.name = "oil";
-        }else if( spin % 56 == 0){
+        } else if (spin % 56 == 0) {
             slot.innerHTML = `<img src="imgs/wastebasket.png" width="80" height="80" title="-10000">`;
             slot.name = "trash";
-        }else if( spin % 14 == 0){
+        } else if (spin % 14 == 0) {
             slot.innerHTML = `<img src="imgs/arrows_counterclockwise.png" width="80" height="80" title="x-1 (stacks)">`;
             slot.name = "flip";
-        }else if (spin % 2 == 0) {
+        } else if (spin % 2 == 0) {
             slot.innerHTML = `<img src="imgs/black_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
             slot.name = "blank";
         } else {
@@ -247,7 +298,7 @@ function collectorColorflash() {
         iteration++;
         if (iteration >= 12) {
             clearInterval(colorSpin0);
-            spinner.style.backgroundColor = "black";
+            collector.style.backgroundColor = "black";
         }
     }, 44);
     const colorSpin1 = setInterval(() => {
@@ -262,7 +313,7 @@ function collectorColorflash() {
         collector.style.backgroundColor = "yellow";
         if (iteration >= 12) {
             clearInterval(colorSpin2);
-            spinner.style.backgroundColor = "black";
+            collector.style.backgroundColor = "black";
 
         }
     }, 35);
@@ -270,35 +321,106 @@ function collectorColorflash() {
         collector.style.backgroundColor = "green";
         if (iteration >= 12) {
             clearInterval(colorSpin3);
-            spinner.style.backgroundColor = "black";
+            collector.style.backgroundColor = "black";
+
+
+        }
+    }, 43);
+}
+function skipColorflash() {
+    let iteration = 0;
+    const colorSpin0 = setInterval(() => {
+        skip.style.backgroundColor = "cyan";
+        iteration++;
+        if (iteration >= 43) {
+            clearInterval(colorSpin0);
+            skip.style.backgroundColor = "black";
+        }
+    }, 44);
+    const colorSpin1 = setInterval(() => {
+        skip.style.backgroundColor = "blue";
+        if (iteration >= 42) {
+            clearInterval(colorSpin1);
+            skip.style.backgroundColor = "black";
+
+        }
+    }, 47);
+    const colorSpin2 = setInterval(() => {
+        skip.style.backgroundColor = "white";
+        if (iteration >= 42) {
+            clearInterval(colorSpin2);
+            skip.style.backgroundColor = "black";
+
+        }
+    }, 35);
+    const colorSpin3 = setInterval(() => {
+        skip.style.backgroundColor = "violet";
+        if (iteration >= 32) {
+            clearInterval(colorSpin3);
+            skip.style.backgroundColor = "black";
+
+
+        }
+    }, 43);
+}
+function purchaseColorflash() {
+    let iteration = 0;
+    const colorSpin0 = setInterval(() => {
+        purchase.style.backgroundColor = "gold";
+        iteration++;
+        if (iteration >= 15) {
+            clearInterval(colorSpin0);
+            purchase.style.backgroundColor = "white";
+        }
+    }, 44);
+    const colorSpin1 = setInterval(() => {
+        purchase.style.backgroundColor = "beige";
+        if (iteration >= 15) {
+            clearInterval(colorSpin1);
+            purchase.style.backgroundColor = "black";
+
+        }
+    }, 47);
+    const colorSpin2 = setInterval(() => {
+        purchase.style.backgroundColor = "brown";
+        if (iteration >= 15) {
+            clearInterval(colorSpin2);
+            purchase.style.backgroundColor = "black";
+
+        }
+    }, 35);
+    const colorSpin3 = setInterval(() => {
+        purchase.style.backgroundColor = "crimson";
+        if (iteration >= 15) {
+            clearInterval(colorSpin3);
+            purchase.style.backgroundColor = "black";
 
 
         }
     }, 43);
 }
 
-
 function spinnertextColors(operation) {
     if (!operation) {
         colorData0.forEach(clearInterval);
         colorData0 = [];
         return;
-    }else{
-    let iteration = 0;
-    const colorSpin0 = setInterval(() => {
-        spinner.style.color = "red";
-    }, 444);
-    const colorSpin1 = setInterval(() => {
-        spinner.style.color = "blue";
-    }, 347);
-    const colorSpin2 = setInterval(() => {
-        spinner.style.color = "yellow";
-    }, 235);
-    const colorSpin3 = setInterval(() => {
-        spinner.style.color = "green";
-    }, 250);
-    colorData0 = [colorSpin0,colorSpin1,colorSpin2,colorSpin3];
-}
+    } else {
+        let iteration = 0;
+        const colorSpin0 = setInterval(() => {
+            spinner.style.color = "red";
+        }, 444);
+        const colorSpin1 = setInterval(() => {
+            spinner.style.color = "blue";
+        }, 347);
+        const colorSpin2 = setInterval(() => {
+            spinner.style.color = "yellow";
+        }, 235);
+        const colorSpin3 = setInterval(() => {
+            spinner.style.color = "green";
+        }, 250);
+        colorData0 = [colorSpin0, colorSpin1, colorSpin2, colorSpin3];
+    }
 }
 
 function spinnertextColors2(operation) {
@@ -306,22 +428,22 @@ function spinnertextColors2(operation) {
         colorData1.forEach(clearInterval);
         colorData1 = [];
         return;
-    }else{
-    let iteration = 0;
-    const colorSpin0 = setInterval(() => {
-        collector.style.color = "red";
-    }, 444);
-    const colorSpin1 = setInterval(() => {
-        collector.style.color = "blue";
-    }, 347);
-    const colorSpin2 = setInterval(() => {
-        collector.style.color = "yellow";
-    }, 235);
-    const colorSpin3 = setInterval(() => {
-        collector.style.color = "green";
-    }, 250);
-    colorData1 = [colorSpin0,colorSpin1,colorSpin2,colorSpin3];
-}
+    } else {
+        let iteration = 0;
+        const colorSpin0 = setInterval(() => {
+            collector.style.color = "red";
+        }, 444);
+        const colorSpin1 = setInterval(() => {
+            collector.style.color = "blue";
+        }, 347);
+        const colorSpin2 = setInterval(() => {
+            collector.style.color = "yellow";
+        }, 235);
+        const colorSpin3 = setInterval(() => {
+            collector.style.color = "green";
+        }, 250);
+        colorData1 = [colorSpin0, colorSpin1, colorSpin2, colorSpin3];
+    }
 }
 
 
