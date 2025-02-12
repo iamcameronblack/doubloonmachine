@@ -13,14 +13,20 @@ let collected = true;
 let spinCounter = 0;
 let mSteps = 0;
 let dSteps = 0;
+let nSteps = 0;
+let flips = 0;
 let colorData1 = [];
 let colorData0 = [];
+
+
 
 for (let slot of slots) {
     slot.innerHTML = "-";
 }
 spinnertextColors(true);
 spinnertextColors2(false);
+
+
 
 collector.addEventListener("click", e => {
     if (!collected && !spinning) {
@@ -50,14 +56,26 @@ collector.addEventListener("click", e => {
             if (slot.name == "alien") dSteps += 1;
             if (slot.name == "xiaohongshu") mSteps += 7;
             if (slot.name == "sparkle") mSteps += 1;
+            if (slot.name == "oil") instanceScore += 500;
+            if (slot.name == "pray") instanceScore += 100;
+            if (slot.name == "trash") instanceScore -= 10000;
+            if (slot.name == "sos")nSteps = 1;
+            if (slot.name == "flip") flips += 1;
         }
-        console.log(instanceScore);
+
         for (let i = 0; i < mSteps; i++) {
             instanceScore = instanceScore * 2;
+        }
+        for (let i = 0; i < nSteps; i++) {
+            instanceScore = -1 * Math.abs(instanceScore);
         }
         for (let i = 0; i < dSteps; i++) {
             instanceScore = Math.round(instanceScore / 3);
         }
+        for (let i = 0; i < flips; i++) {
+            instanceScore = instanceScore * -1;
+        }
+
         if (instanceScore < 0) {
             spinScore.style.color = "red"
             spinScore.innerHTML = ` ${instanceScore}`;
@@ -114,7 +132,7 @@ function spinSlots() {
 }
 
 function spinSlot(slot) {
-    let spinCount = Math.round(Math.random() * 111);
+    let spinCount = Math.round(Math.random() * 121);
     let spin = 0;
     const slot1Spinner = setInterval(() => {
         spinning = true;
@@ -154,8 +172,22 @@ function spinSlot(slot) {
         } else if (spin % 29 == 0) {
             slot.innerHTML = `<img src="imgs/sparkle.png" width="80" height="80" title="x2 (stacks)">`;
             slot.name = "sparkle";
-        }
-        else if (spin % 2 == 0) {
+        }else if( spin % 80 == 0){
+            slot.innerHTML = `<img src="imgs/pray.png" width="80" height="80" title="+100">`;
+            slot.name = "pray";
+        }else if( spin % 18 == 0){
+            slot.innerHTML = `<img src="imgs/sos.png" width="80" height="80" title="makes result negative">`;
+            slot.name = "sos";
+        }else if( spin % 91 == 0){
+            slot.innerHTML = `<img src="imgs/oil_drum.png" width="80" height="80" title="+500">`;
+            slot.name = "oil";
+        }else if( spin % 56 == 0){
+            slot.innerHTML = `<img src="imgs/wastebasket.png" width="80" height="80" title="-10000">`;
+            slot.name = "trash";
+        }else if( spin % 14 == 0){
+            slot.innerHTML = `<img src="imgs/arrows_counterclockwise.png" width="80" height="80" title="x-1 (stacks)">`;
+            slot.name = "flip";
+        }else if (spin % 2 == 0) {
             slot.innerHTML = `<img src="imgs/black_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
             slot.name = "blank";
         } else {
