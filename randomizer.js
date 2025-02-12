@@ -110,47 +110,47 @@ function spinSlot(slot) {
     const slot1Spinner = setInterval(() => {
         spinning = true;
         if (spin % 25 == 1) {
-            slot.innerHTML = `<img src="mahjong.png" width="80" height="80" title="+15">`;
+            slot.innerHTML = `<img src="imgs.mahjong.png" width="80" height="80" title="+15">`;
             slot.name = "mahjong";
         } else if (spin % 21 == 2) {
-            slot.innerHTML = `<img src="beer.png" width="80" height="80" title="+25">`;
+            slot.innerHTML = `<img src="imgs.beer.png" width="80" height="80" title="+25">`;
             slot.name = "beer";
         } else if (spin % 21 == 3) {
-            slot.innerHTML = `<img src="cherries.png" width="80" height="80" title="+5">`;
+            slot.innerHTML = `<img src="imgs.cherries.png" width="80" height="80" title="+5">`;
             slot.name = "cherry";
         } else if (spin % 21 == 4) {
-            slot.innerHTML = `<img src="cherry_blossom.png" width="80" height="80" title="+1">`;
+            slot.innerHTML = `<img src="imgs.cherry_blossom.png" width="80" height="80" title="+1">`;
             slot.name = "flower";
         } else if (spin % 21 == 5) {
-            slot.innerHTML = `<img src="dvd.png" width="80" height="80" title="+2">`
+            slot.innerHTML = `<img src="imgs.dvd.png" width="80" height="80" title="+2">`
             slot.name = "dvd";
         } else if (spin % 21 == 6) {
-            slot.innerHTML = `<img src="eye.png" width="80" height="80" title="-5">`;
+            slot.innerHTML = `<img src="imgs.eye.png" width="80" height="80" title="-5">`;
             slot.name = "eye";
         } else if (spin % 25 == 7) {
-            slot.innerHTML = `<img src="joy_cat.png" width="80" height="80" title="-100">`;
+            slot.innerHTML = `<img src="imgs.joy_cat.png" width="80" height="80" title="-100">`;
             slot.name = "evil-cat";
         } else if (spin % 28 == 8) {
-            slot.innerHTML = `<img src="new_moon_with_face.png" width="80" height="80" title="-500">`;
+            slot.innerHTML = `<img src="imgs.new_moon_with_face.png" width="80" height="80" title="-500">`;
             slot.name = "evil-moon";
         } else if (spin % 32 == 9) {
-            slot.innerHTML = `<img src="spades.png" width="80" height="80" title="x8 (stacks)">`;
+            slot.innerHTML = `<img src="imgs.spades.png" width="80" height="80" title="x8 (stacks)">`;
             slot.name = "spade";
         } else if (spin % 30 == 0) {
-            slot.innerHTML = `<img src="alien.png" width="80" height="80" title="divide all by 3 (stacks) (applies last)">`;
+            slot.innerHTML = `<img src="imgs.alien.png" width="80" height="80" title="divide all by 3 (stacks) (applies last)">`;
             slot.name = "alien";
         }else if(spin % 108 == 0){
-            slot.innerHTML = `<img src="u6307.png" width="80" height="80" title="x128">`;
+            slot.innerHTML = `<img src="imgs.u6307.png" width="80" height="80" title="x128">`;
             slot.name = "xiaohongshu";
         }else if(spin % 29 == 0){
-            slot.innerHTML = `<img src="sparkle.png" width="80" height="80" title="x2 (stacks)">`;
+            slot.innerHTML = `<img src="imgs.sparkle.png" width="80" height="80" title="x2 (stacks)">`;
             slot.name = "sparkle";
         }
         else if (spin % 2 == 0){
-            slot.innerHTML = `<img src="black_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
+            slot.innerHTML = `<img src="imgs.black_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
             slot.name = "blank";
         }else{
-            slot.innerHTML = `<img src="red_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
+            slot.innerHTML = `<img src="imgs.red_joker.png" width="80" height="80" title="rewards you with absolutely nothing">`;
             slot.name = "blank";
         }
         spin++;
