@@ -37,6 +37,8 @@ collector.addEventListener("click", e => {
         instanceScore = 0;
         mSteps = 0;
         dSteps = 0;
+        flips = 0;
+        nSteps = 0;
         for (let slot of slots) {
             for (otherSlot of slots) {
                 if ((slot.name == otherSlot.name) && !(slot.id == otherSlot.id) && !((slot.name == "blank") || (otherSlot.name == "blank"))) {
@@ -66,14 +68,14 @@ collector.addEventListener("click", e => {
         for (let i = 0; i < mSteps; i++) {
             instanceScore = instanceScore * 2;
         }
-        for (let i = 0; i < nSteps; i++) {
-            instanceScore = -1 * Math.abs(instanceScore);
-        }
         for (let i = 0; i < dSteps; i++) {
             instanceScore = Math.round(instanceScore / 3);
         }
         for (let i = 0; i < flips; i++) {
             instanceScore = instanceScore * -1;
+        }
+        for (let i = 0; i < nSteps; i++) {
+            instanceScore = -1 * Math.abs(instanceScore);
         }
 
         if (instanceScore < 0) {
